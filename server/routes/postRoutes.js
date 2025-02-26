@@ -45,6 +45,25 @@ router.post("/create", authenticateUser, upload.single("image"), async (req, res
       res.status(500).json({ error: "Internal server error" });
     }
   });
+
+
+  router.post("/", authenticateUser, async (req, res) => {
+    try {
+      const { content } = req.body;
+      if (!content) return res.status(400).json({ error: "Post content is required" });
+  
+      const newPost = await Post.create({
+        userId: req.user.id,
+        username: req.user.username,
+        content,
+      });
+  
+      res.status(201).json(newPost);
+    } catch (error) {
+      console.error("❌ Error creating post:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
   
 
 
