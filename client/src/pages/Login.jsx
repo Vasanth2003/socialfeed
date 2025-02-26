@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  Paper,
+} from "@mui/material";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,47 +19,84 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log("🔹 Sending Login Request:", email, password);
-  
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
-  
-      console.log("✅ Login Response:", response.data);
-  
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password }
+      );
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token); // Store token properly
-        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`; // Set global token for axios
-        window.location.href = "/"; // Refresh page to update state
+        localStorage.setItem("token", response.data.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
+        window.location.href = "/";
       } else {
         alert("Login failed! No token received.");
       }
     } catch (error) {
-      console.error("❌ Login Error:", error.response ? error.response.data : error);
       alert("Login failed! " + (error.response?.data?.error || "Unknown error"));
     }
   };
-  
 
   return (
-    <form onSubmit={handleLogin}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <Container maxWidth="sm">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Paper
+          elevation={6}
+          sx={{
+            padding: 4,
+            borderRadius: 3,
+            textAlign: "center",
+            background: "linear-gradient(135deg, #1e1e2e, #24243e)",
+            color: "white",
+          }}
+        >
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            🔑 Login
+          </Typography>
+          <Box component="form" onSubmit={handleLogin} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <TextField
+              type="email"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                input: { color: "white" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "white" },
+                  "&:hover fieldset": { borderColor: "#6a5acd" },
+                },
+              }}
+            />
+            <TextField
+              type="password"
+              label="Password"
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                input: { color: "white" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "white" },
+                  "&:hover fieldset": { borderColor: "#6a5acd" },
+                },
+              }}
+            />
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Button type="submit" variant="contained" fullWidth sx={{ bgcolor: "#6a5acd", mt: 2 }}>
+                Login
+              </Button>
+            </motion.div>
+          </Box>
+        </Paper>
+      </motion.div>
+    </Container>
   );
 };
 

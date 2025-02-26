@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Container,
+  Paper,
+} from "@mui/material";
+import { motion } from "framer-motion";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -10,46 +19,83 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      console.log("🔹 Sending Signup Request:", email, password);
-
-      const response = await axios.post("http://localhost:5000/api/auth/signup", {
-        email,
-        password,
-      });
-
-      console.log("✅ Signup Response:", response.data);
-
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        { email, password }
+      );
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         navigate("/");
-        window.location.reload(); // ✅ Ensures Navbar updates
+        window.location.reload();
       } else {
         alert("Signup failed! No token received.");
       }
     } catch (error) {
-      console.error("❌ Signup Error:", error.response ? error.response.data : error);
       alert("Signup failed! " + (error.response?.data?.error || "Unknown error"));
     }
   };
 
   return (
-    <form onSubmit={handleSignup}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Signup</button>
-    </form>
+    <Container maxWidth="sm">
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Paper
+          elevation={6}
+          sx={{
+            padding: 4,
+            borderRadius: 3,
+            textAlign: "center",
+            backdropFilter: "blur(10px)",
+            background: "rgba(255, 255, 255, 0.1)",
+            color: "white",
+          }}
+        >
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+            📝 Signup
+          </Typography>
+          <Box component="form" onSubmit={handleSignup} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <TextField
+              type="email"
+              label="Email"
+              variant="outlined"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                input: { color: "white" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "white" },
+                  "&:hover fieldset": { borderColor: "#6a5acd" },
+                },
+              }}
+            />
+            <TextField
+              type="password"
+              label="Password"
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                input: { color: "white" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "white" },
+                  "&:hover fieldset": { borderColor: "#6a5acd" },
+                },
+              }}
+            />
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Button type="submit" variant="contained" fullWidth sx={{ bgcolor: "#6a5acd", mt: 2 }}>
+                Signup
+              </Button>
+            </motion.div>
+          </Box>
+        </Paper>
+      </motion.div>
+    </Container>
   );
 };
 

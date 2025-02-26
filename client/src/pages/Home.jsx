@@ -1,7 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { getAllPosts } from "../api/api";
 import PostCard from "../components/PostCard";
-import CreatePost from "../components/CreatePost";
+import { Box, Typography, Container } from "@mui/material";
+import { styled } from "@mui/system";
+
+const HomeContainer = styled(Container)({
+  minHeight: "100vh",
+  paddingTop: "20px",
+});
+
+const Title = styled(Typography)({
+  color: "#00f7ff",
+  fontSize: "2.5rem",
+  textAlign: "center",
+  fontWeight: "bold",
+  textShadow: "0 0 15px #00f7ff",
+});
+
+const NoPostsMessage = styled(Typography)({
+  color: "#ff4d6d",
+  fontSize: "1.3rem",
+  textAlign: "center",
+  marginTop: "20px",
+  fontWeight: "bold",
+});
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -16,28 +38,17 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-
-  const handleNewPost = (newPost) => {
-    setPosts([newPost, ...posts]); // Add new post to UI
-  };
-
   return (
-    <div>
-
-<CreatePost onPostCreated={handleNewPost} />
-
-
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
-      {posts.length > 0 ? (
-        posts.map((post, index) => <PostCard key={index} post={post || {}} />) // Ensures `post` is always valid
-      ) : (
-        <p>❌ No posts available</p>
-      )}
-
-      
-    </div>
+    <HomeContainer maxWidth="md">
+      <Title>🔥 Social Feed 🔥</Title>
+      <Box mt={3}>
+        {posts.length > 0 ? (
+          posts.map((post, index) => <PostCard key={index} post={post || {}} />)
+        ) : (
+          <NoPostsMessage>No posts available 🚀</NoPostsMessage>
+        )}
+      </Box>
+    </HomeContainer>
   );
 };
 

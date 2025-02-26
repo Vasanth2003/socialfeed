@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Card, CardContent, Typography, Button, TextField, CardMedia, Box, Divider } from "@mui/material";
@@ -13,8 +12,7 @@ const PostCard = ({ post }) => {
   const [commentsList, setCommentsList] = useState(() => {
     try {
       return Array.isArray(comments) ? comments : JSON.parse(comments) || [];
-    } catch (error) {
-      console.error("Error parsing comments:", error);
+    } catch {
       return [];
     }
   });
@@ -23,8 +21,7 @@ const PostCard = ({ post }) => {
     try {
       await likePost(id, localStorage.getItem("token"));
       alert("Post liked!");
-    } catch (error) {
-      console.error("Failed to like post:", error);
+    } catch {
       alert("Failed to like post");
     }
   };
@@ -37,8 +34,7 @@ const PostCard = ({ post }) => {
       await commentOnPost(id, { username: "User", comment }, localStorage.getItem("token"));
       setCommentsList([...commentsList, { username: "User", comment, date: new Date().toLocaleString() }]);
       setComment("");
-    } catch (error) {
-      console.error("Failed to add comment:", error);
+    } catch {
       alert("Failed to add comment");
     }
   };
@@ -141,7 +137,6 @@ const PostCard = ({ post }) => {
   );
 };
 
-// ✅ Add PropTypes
 PostCard.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number.isRequired,

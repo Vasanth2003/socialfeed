@@ -21,10 +21,9 @@ const CreatePost = ({ onPostCreated }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setContent(""); 
-      onPostCreated(response.data); 
+      setContent("");
+      onPostCreated(response.data);
     } catch (error) {
-      console.error("❌ Error creating post:", error.response?.data || error);
       alert("Failed to create post!");
     } finally {
       setLoading(false);
