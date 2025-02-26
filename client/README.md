@@ -1,8 +1,25 @@
-# React + Vite
+# SocialFeed - A Social Media App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SocialFeed is a simple social media platform built with **React, Node.js, Express, and MySQL**.  
+It allows users to **post content, like, and comment** on posts.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- ✅ User Authentication (Login & Signup)
+- ✅ Create, Like & Comment on Posts
+- ✅ Secure JWT Authentication
+- ✅ Cyber-Themed UI with Material-UI
+- ✅ Backend powered by Express & Sequelize
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
+- **Frontend**: React, Material-UI
+- **Backend**: Node.js, Express.js, Sequelize
+- **Database**: MySQL
+- **Authentication**: JWT (JSON Web Token)
+- **Deployment**: GitHub
+
+## 📌 Installation
+```sh
+git clone https://github.com/Vasanth2003/socialfeed.git
+cd socialfeed
+npm install
+npm start
