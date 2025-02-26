@@ -23,6 +23,7 @@ const Profile = () => {
     };
     fetchProfile();
   }, [username]);
+  
 
   if (loading) return <Typography align="center" color="primary">Loading profile...</Typography>;
   if (!user) return <Typography align="center" color="error">User not found.</Typography>;
